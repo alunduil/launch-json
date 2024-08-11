@@ -13,7 +13,7 @@ synopsis:
   launch-json creates a launch.json from a Haskell project for phoityne-vscode
 
 description:
-  launch-json creates a launch.json configuration fro Visual Studio Code for use
+  launch-json creates a launch.json configuration for Visual Studio Code for use
   with phoityne-vscode based on the existing Cabal file for your project.
 
 category:           VSCode
