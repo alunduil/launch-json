@@ -1,4 +1,4 @@
-# Revision history for template-hs
+# Revision history for launch-json
 
 ## unreleased
 
