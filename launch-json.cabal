@@ -35,7 +35,9 @@ source-repository head
 
 common launch-json-common
   build-depends:
-    base ^>=4.16.3.0 || ^>=4.17 || ^>=4.18 || ^>=4.19 || ^>=4.20
+    , base                  ^>=4.16.3.0  || ^>=4.17    || ^>=4.18 || ^>=4.19 || ^>=4.20
+    , filepath              ^>=1.4.100.1 || ^>=1.5.3.0
+    , optparse-applicative  ^>=0.18.1.0
 
   ghc-options:
     -Wall -Werror=missing-fields -Werror=unused-imports
@@ -44,9 +46,20 @@ common launch-json-common
 
 library launch-json-library
   import:           launch-json-common
-  exposed-modules:  Launch.Json
+  exposed-modules:
+    LaunchJson
+    LaunchJson.Defaults
+    LaunchJson.Environment
+    LaunchJson.Options
+
   other-modules:
   build-depends:
+    , exceptions    ^>=0.10.7
+    , Glob          ^>=0.10.2
+    , monad-logger  ^>=0.3.40
+    , mtl           ^>=2.3.1
+    , process       ^>=1.6.17.0
+
   hs-source-dirs:   lib/launch-json
   default-language: Haskell2010
 
@@ -54,10 +67,17 @@ test-suite launch-json-test
   import:           launch-json-common
   type:             exitcode-stdio-1.0
   main-is:          Main.hs
-  build-depends:    tasty ^>=1.4.3 || ^>=1.5
+  build-depends:
+    , hspec                ^>=2.11.9
+    , launch-json-library
+    , tasty                ^>=1.4.3   || ^>=1.5
+    , tasty-hspec          ^>=1.2.0.4
+    , text                 ^>=2.0.2   || ^>=2.1
 
-  -- , launch-json-library
   other-modules:
+    LaunchJsonSpec
+    LaunchJsonSpec.OptionsSpec
+
   hs-source-dirs:   test/launch-json
   default-language: Haskell2010
   ghc-options:      -threaded
@@ -65,9 +85,8 @@ test-suite launch-json-test
 executable launch-json
   main-is:          Main.hs
   build-depends:
-    base ^>=4.16.3.0 || ^>=4.17.0.0 || ^>=4.18.0.0 || ^>=4.19.0.0 || ^>=4.20
-
-  -- , launch-json-library
+    , base                 ^>=4.16.3.0 || ^>=4.17.0.0 || ^>=4.18.0.0 || ^>=4.19.0.0 || ^>=4.20
+    , launch-json-library
 
   hs-source-dirs:   bin/launch-json
   default-language: Haskell2010

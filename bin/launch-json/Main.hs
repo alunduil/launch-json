@@ -1,4 +1,6 @@
 module Main (main) where
 
+import qualified LaunchJson (main)
+
 main :: IO ()
-main = putStrLn "launch-json"
+main = LaunchJson.main
