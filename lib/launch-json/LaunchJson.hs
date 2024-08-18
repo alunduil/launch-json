@@ -1,14 +1,21 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 module LaunchJson (main) where
 
 import Control.Monad.Catch (MonadThrow)
-import Control.Monad.Logger (LoggingT, MonadLogger, runStderrLoggingT)
-import Control.Monad.Reader (MonadIO, MonadReader, ReaderT, runReaderT)
+import Control.Monad.Logger (LoggingT, MonadLogger, logDebug, logInfo, runStderrLoggingT)
+import Control.Monad.Reader (MonadIO, MonadReader, ReaderT, asks, liftIO, runReaderT)
+import Data.Aeson (encode)
+import Data.ByteString.Lazy (putStr)
+import Data.Text (pack)
+import qualified LaunchConfiguration (fromPath)
 import qualified LaunchJson.Defaults (determine)
-import qualified LaunchJson.Environment (T)
+import LaunchJson.Environment (T (cabal))
 import qualified LaunchJson.Options (parserInfo)
 import Options.Applicative (execParser)
+import Prelude hiding (putStr)
 
 newtype LaunchJson a = LaunchJson
   { run :: LoggingT (ReaderT LaunchJson.Environment.T IO) a
@@ -22,8 +29,9 @@ main :: IO ()
 main = LaunchJson.Defaults.determine >>= execParser . LaunchJson.Options.parserInfo >>= runLaunchJson main'
 
 main' :: LaunchJson ()
-main' = undefined
-
--- Read Cabal file
--- Generate launch.json
--- Write launch.json to .vscode/launch.json
+main' = do
+  input <- asks cabal
+  $logInfo $ pack $ "processing: " ++ show input
+  launchConfiguration <- LaunchConfiguration.fromPath input
+  $logDebug $ pack $ "launchConfiguration: " ++ show launchConfiguration
+  liftIO $ putStr $ encode launchConfiguration

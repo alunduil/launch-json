@@ -1,0 +1,35 @@
+- forceInspect: false
+  ghciCmd: cabal repl --with-compiler ghci-dap --repl-no-load --builddir=${workspace}/.vscode/dist-cabal-repl launch-configuration-test
+  ghciEnv: {}
+  ghciInitialPrompt: "> "
+  ghciPrompt: "H>>= "
+  internalConsoleOptions: openOnSessionStart
+  logFile: ${workspaceFolder}/.vscode/launch-configuration-test.log
+  logLevel: DEBUG
+  mainArgs: ""
+  name: launch-configuration-test
+  request: launch
+  startup: ${workspaceFolder}/test/launch-configuration/Main.hs
+  startupArgs: ""
+  startupFunc: ""
+  stopOnEntry: falsge
+  type: ghc
+  workspace: ${workspaceFolder}
+
+- forceInspect: false
+  ghciCmd: cabal repl --with-compiler ghci-dap --repl-no-load --builddir=${workspace}/.vscode/dist-cabal-repl launch-json-test
+  ghciEnv: {}
+  ghciInitialPrompt: "> "
+  ghciPrompt: "H>>= "
+  internalConsoleOptions: openOnSessionStart
+  logFile: ${workspaceFolder}/.vscode/launch-json-test.log
+  logLevel: DEBUG
+  mainArgs: ""
+  name: launch-json-test
+  request: launch
+  startup: ${workspaceFolder}/test/launch-json/Main.hs
+  startupArgs: ""
+  startupFunc: ""
+  stopOnEntry: false
+  type: ghc
+  workspace: ${workspaceFolder}
